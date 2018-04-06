@@ -4,6 +4,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import com.example.l5data.model.TStore;
 
@@ -14,11 +15,16 @@ public interface TStoreRepository extends JpaRepository<TStore, Integer> {
 	Iterable<TStore> findByNameContaining(String n);
 	Page<TStore> findByNameContainingIgnoreCase(String n, Pageable p);
 	Iterable<TStore> firstTen();  
-	
+
 	@Query("select s from TStore s where s.id < 6 or s.id=?1")
 	Iterable<TStore> firstFiveOrId(int id); 
 
 	@Query("select s from TStore s where s.name like ?1%")
 	Iterable<TStore> findByNameStartsWith(String criteria);
+
+	@Query("select s "+ 
+			"from TStore s "+ 
+			"where s.name=:name or s.id=:id")
+	Iterable<TStore> namedParams(@Param("id") int id, @Param("name") String name);
 
 }
