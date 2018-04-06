@@ -10,7 +10,11 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name="t_store")
-@NamedQuery(name="TStore.findAll", query="SELECT t FROM TStore t")
+@NamedQuery(name="TStore.firstTen", 
+query="select s "+
+       "from TStore s "+
+       "where s.id <= 10")
+
 public class TStore implements Serializable {
 	private static final long serialVersionUID = 1L;
 
